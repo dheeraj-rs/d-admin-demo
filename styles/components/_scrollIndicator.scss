@@ -1,0 +1,16 @@
+.scroll-indicator-bar {
+    position: fixed;
+    top: 0;
+    right: 0;
+    height: 100%;
+    width: 2px;
+    z-index: 99999;
+
+    &-indicator {
+        width: 100%;
+        background: linear-gradient(180deg, var(--surface-border), var(--primary-color));
+        height: 0%;
+        transition: height 0.1s ease;
+        border-radius: 0px 0px 12px 12px;
+    }
+}

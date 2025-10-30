@@ -1,0 +1,149 @@
+/* Container Styles */
+.spinner-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Spinner Wrapper */
+.spinner-wrapper {
+    margin-top: 5rem;
+    position: relative;
+    width: 50px;
+    height: 50px;
+}
+
+/* Main Spinner Circle with Variable Thickness */
+.spinner-circle {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    background: conic-gradient(
+        from 0deg,
+        transparent 0deg,
+        rgba(66, 133, 244, 0.1) 45deg,
+        rgba(66, 133, 244, 0.4) 75deg,
+        #4285f4 90deg,
+        #4285f4 135deg,
+        rgba(66, 133, 244, 0.4) 165deg,
+        rgba(66, 133, 244, 0.1) 195deg,
+        transparent 225deg,
+        transparent 360deg
+    );
+    mask: radial-gradient(circle at center, transparent 70%, black 70%, black 87%, transparent 87%);
+    -webkit-mask: radial-gradient(circle at center, transparent 70%, black 70%, black 87%, transparent 87%);
+    animation: spin 1.4s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+}
+
+/* Overlay for Variable Thickness Effect */
+.spinner-overlay {
+    position: absolute;
+    top: -3px;
+    left: -3px;
+    width: calc(100% + 6px);
+    height: calc(100% + 6px);
+    border-radius: 50%;
+    background: conic-gradient(
+        from 45deg,
+        transparent 0deg,
+        rgba(66, 133, 244, 0.05) 30deg,
+        rgba(66, 133, 244, 0.2) 60deg,
+        rgba(66, 133, 244, 0.6) 90deg,
+        rgba(66, 133, 244, 0.8) 105deg,
+        rgba(66, 133, 244, 0.6) 120deg,
+        rgba(66, 133, 244, 0.2) 150deg,
+        rgba(66, 133, 244, 0.05) 180deg,
+        transparent 210deg,
+        transparent 360deg
+    );
+    mask: radial-gradient(circle at center, transparent 67%, black 67%, black 90%, transparent 90%);
+    -webkit-mask: radial-gradient(circle at center, transparent 67%, black 67%, black 90%, transparent 90%);
+    animation: spin 1.4s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+}
+
+/* Alternative Simplified Version */
+.spinner-circle-simple {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    border: 2px solid transparent;
+    border-top: 1px solid rgba(66, 133, 244, 0.3);
+    border-right: 4px solid #4285f4;
+    border-bottom: 2px solid rgba(66, 133, 244, 0.5);
+    border-left: 1px solid rgba(66, 133, 244, 0.2);
+    animation: spin 1.2s linear infinite;
+    box-sizing: border-box;
+}
+
+/* Spin Animation */
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .spinner-wrapper {
+        width: 56px;
+        height: 56px;
+        margin-bottom: 24px;
+    }
+
+    .loading-text {
+        font-size: 14px;
+    }
+
+    .spinner-container {
+        padding: 16px;
+    }
+}
+
+@media (max-width: 480px) {
+    .spinner-wrapper {
+        width: 48px;
+        height: 48px;
+        margin-bottom: 20px;
+    }
+
+    .loading-text {
+        font-size: 13px;
+    }
+}
+
+/* High DPI Display Support */
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 2dppx) {
+    .spinner-circle,
+    .spinner-overlay {
+        transform: translateZ(0);
+        will-change: transform;
+    }
+}
+
+/* Accessibility - Reduced Motion */
+@media (prefers-reduced-motion: reduce) {
+    .spinner-circle,
+    .spinner-overlay,
+    .spinner-circle-simple {
+        animation-duration: 2s;
+        animation-timing-function: linear;
+    }
+}
+
+/* Performance Optimizations */
+.spinner-circle,
+.spinner-overlay {
+    transform: translateZ(0);
+    backface-visibility: hidden;
+    will-change: transform;
+}

@@ -1,0 +1,31 @@
+.custom-input {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  width: 100%;
+
+  &__label {
+    font-size: 0.875rem;
+    color: var(--text-color);
+    font-weight: 500;
+  }
+
+  &__field {
+    padding: 0.75rem;
+    border: 1px solid var(--surface-border);
+    border-radius: 6px;
+    font-size: 1rem;
+    transition: all 0.2s;
+    outline: none;
+
+    &:focus {
+      border-color: var(--primary-color);
+      box-shadow: 0 0 0 2px rgba(79, 70, 229, 0.1);
+    }
+  }
+
+  &__error {
+    font-size: 0.75rem;
+    color: #ef4444;
+  }
+} 

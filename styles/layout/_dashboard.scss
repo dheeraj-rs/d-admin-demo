@@ -1,0 +1,970 @@
+@use './variables' as *;
+@use './mixins' as *;
+
+.dashboard-wrapper {
+  position: relative;
+  min-height: 100%;
+  display: flex;
+  flex-grow: 1;
+  gap: 1rem;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 0 0.5rem;
+
+  @media (max-width: 768px) {
+    padding: 0;
+    gap: 0.5rem;
+  }
+  // SCSS Variables
+  $primary-color: var(--primary-color);
+  $secondary-color: var(--secondary-color);
+  $warning-color: var(--warning-color);
+  $danger-color: var(--danger-color);
+  $info-color: var(--info-color);
+  $dark-color: var(--dark-color);
+  $light-color: var(--light-color);
+
+  $border-radius: 6px;
+  $box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+  $transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+
+  // 3D Variables
+  $card-depth: 20px;
+  $hover-lift: 5px;
+  $perspective: 1000px;
+
+  // Updated gradient definitions without using mix()
+  $gradient-blue: linear-gradient(135deg, rgba(59, 130, 246, 0.85), rgba(59, 130, 246, 0.65));
+  $gradient-green: linear-gradient(135deg, rgba(34, 197, 94, 0.85), rgba(34, 197, 94, 0.65));
+  $gradient-orange: linear-gradient(135deg, rgba(245, 158, 11, 0.85), rgba(245, 158, 11, 0.65));
+  $gradient-red: linear-gradient(135deg, rgba(239, 68, 68, 0.85), rgba(239, 68, 68, 0.65));
+  $gradient-purple: linear-gradient(135deg, rgba(147, 51, 234, 0.85), rgba(147, 51, 234, 0.65));
+  $gradient-cyan: linear-gradient(135deg, rgba(147, 51, 234, 0.85), rgba(147, 51, 234, 0.65));
+
+  // Color mapping
+  $colors: (
+    "blue": $gradient-blue,
+    "green": $gradient-green,
+    "orange": $gradient-orange,
+    "red": $gradient-red,
+    "purple": $gradient-purple,
+    "cyan": $gradient-cyan
+  );
+
+  // Common mixin for 3D border hover effect
+  @mixin hover-3d-border {
+    &:hover {
+      cursor: pointer;
+      border: 1px solid var(--primary-color);
+      box-shadow:
+        0 ($card-depth + $hover-lift) (($card-depth + $hover-lift) * 1.5) rgba(0, 0, 0, 0.25),
+        0 6px 12px rgba(255, 255, 255, 0.15) inset,
+        0 0 0 1px rgba(255, 255, 255, 0.2),
+        0 0 20px rgba(255, 255, 255, 0.1);
+
+      &::after {
+        content: "";
+        position: absolute;
+        inset: -1px;
+        border: 1px solid var(--primary-color);
+        border-radius: inherit;
+        transform: translateZ(2px);
+        pointer-events: none;
+      }
+    }
+  }
+
+  // Background video setup
+  .background-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    overflow: hidden;
+    &::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(45deg, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.3));
+      z-index: 1;
+      backdrop-filter: blur(8px);
+    }
+    video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      position: absolute;
+      top: 0;
+      left: 0;
+    }
+  }
+
+  // Layout with 3D perspective
+  .dashboard {
+    perspective: $perspective;
+    transform-style: preserve-3d;
+    will-change: transform;
+
+    &__container {
+      display: grid;
+      grid-template-columns: repeat(4, 0.5fr);
+      grid-template-rows: auto;
+      gap: 1rem;
+      margin: 0 auto;
+      transform-style: preserve-3d;
+      width: 100%;
+
+      @media (max-width: 1200px) {
+        grid-template-columns: repeat(2, 0.5fr);
+      }
+      @media (max-width: 768px) {
+        grid-template-columns: 1fr;
+        gap: 0.5rem;
+      }
+
+      // Advanced staggered entrance animation
+      &.pre-animation {
+        > * {
+          opacity: 0;
+          pointer-events: none;
+          transform: translateY(50px) translateZ(-100px) rotateX(20deg);
+        }
+      }
+
+      // Enhanced animation state with physics-based motion
+      &.animate-cards {
+        > * {
+          animation: none;
+          opacity: 1;
+          pointer-events: auto;
+          transition:
+            transform 1s cubic-bezier(0.34, 1.56, 0.64, 1),
+            opacity 1s cubic-bezier(0.34, 1.56, 0.64, 1),
+            box-shadow 0.6s ease-out;
+
+          // Individual card animations with physics
+          @for $i from 0 through 10 {
+            &[data-card-index="#{$i}"] {
+              $delay: $i * 0.08s;
+              $duration: 0.8s + ($i * 0.05s);
+              transition-delay: $delay;
+              transition-duration: $duration;
+              transform: translate3d(0, 0, 0) rotateX(0);
+              animation: cardBounce $duration $delay both;
+            }
+          }
+        }
+      }
+
+    }
+
+    // Enhanced 3D glass card styles
+    .dashboard-card {
+      background: var(--surface-card);
+      border-radius: $border-radius;
+      box-shadow:
+        0 $card-depth ($card-depth * 1.5) rgba(0, 0, 0, 0.2),
+        0 4px 8px rgba(255, 255, 255, 0.1) inset;
+      padding: 24px;
+      transition:
+        transform 0.6s cubic-bezier(0.23, 1, 0.32, 1),
+        box-shadow 0.6s cubic-bezier(0.23, 1, 0.32, 1),
+        backdrop-filter 0.6s ease;
+      overflow: hidden;
+      position: relative;
+      backdrop-filter: blur(15px);
+      border: 1px solid var(--surface-border);
+      transform-style: preserve-3d;
+      // color: var(--text-color-secondary);
+      will-change: transform, box-shadow;
+
+      &::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: -1;
+        transform: translateZ(-5px);
+        z-index: -1;
+        transform: translateZ(-10px);
+      }
+
+      &:hover {
+        @include hover-3d-border;
+      }
+
+      .card-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        margin-bottom: 16px;
+        transform-style: preserve-3d;
+
+        .card-label {
+          font-size: 0.9rem;
+          font-weight: 500;
+          display: block;
+          margin-bottom: 8px;
+          text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+          transform: translateZ(5px);
+          color: var(--text-color-secondary);
+        }
+
+        .card-value {
+          font-size: 2rem;
+          font-weight: 700;
+          color: var(--text-color-secondary);
+          transform: translateZ(8px);
+        }
+      }
+
+      .highlight-text {
+        font-weight: 600;
+        font-size: 1rem;
+        color: var(--text-color-secondary);
+        text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+        transform: translateZ(3px);
+      }
+
+      .secondary-text {
+        color: var(--text-color-secondary);
+        font-size: 0.9rem;
+        text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+        transform: translateZ(3px);
+      }
+    }
+
+    // Enhanced 3D trending glass cards
+    .trend-card {
+      background: var(--surface-card);
+      border-radius: $border-radius;
+      box-shadow:
+        0 $card-depth ($card-depth * 1.5) rgba(0, 0, 0, 0.2),
+        0 4px 8px rgba(255, 255, 255, 0.1) inset;
+      padding: 20px;
+      transition:
+        transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1),
+        box-shadow 0.3s ease-out,
+        opacity 0.5s ease;
+      backdrop-filter: blur(15px);
+      border: 1px solid var(--surface-border);
+      transform-style: preserve-3d;
+      position: relative;
+
+      &::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        // background: linear-gradient(135deg, rgba(53, 53, 53, 0.2), rgba(194, 193, 193, 0.05));
+        border-radius: inherit;
+        z-index: -1;
+      }
+
+      &:hover {
+        @include hover-3d-border;
+      }
+
+      .trend-card-header {
+        display: flex;
+        gap: 12px;
+        margin-bottom: 12px;
+        transform-style: preserve-3d;
+      }
+
+      .icon-container-alt {
+        width: 40px;
+        height: 40px;
+        border-radius: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: var(--surface-card);
+        border: 1px solid var(--surface-border);
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        transform: translateZ(8px);
+
+        @each $name, $color in $colors {
+          &.#{$name} {
+            background: $color;
+          }
+        }
+
+        .icon {
+          font-size: 1.2rem;
+          // color: var(--text-color-secondary);
+          transform: translateZ(2px);
+        }
+      }
+
+      .trend-meta {
+        display: flex;
+        flex-direction: column;
+        transform-style: preserve-3d;
+
+        .trend-label {
+          font-weight: 600;
+          font-size: 0.9rem;
+          color: var(--text-color-secondary);
+          text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+          transform: translateZ(5px);
+        }
+
+        .trend-sublabel {
+          font-size: 0.8rem;
+          color: var(--text-color-secondary);
+          text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+          transform: translateZ(3px);
+        }
+      }
+
+      .trend-value {
+        font-size: 1.3rem;
+        font-weight: 700;
+        margin: 8px 0 12px;
+        color: var(--text-color-secondary);
+        text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        transform: translateZ(6px);
+      }
+
+      .trend-footer {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        transform-style: preserve-3d;
+
+        .icon-small {
+          font-size: 0.9rem;
+          // color: var(--text-color-secondary);
+          transform: translateZ(4px);
+        }
+
+        .trend-status {
+          font-size: 0.8rem;
+          font-weight: 500;
+          transform: translateZ(4px);
+
+          &.green {
+            color: $secondary-color;
+            text-shadow: 0 0 10px rgba($secondary-color, 0.5);
+          }
+
+          &.orange {
+            color: $warning-color;
+            text-shadow: 0 0 10px rgba($warning-color, 0.5);
+          }
+
+          &.purple {
+            color: $info-color;
+            text-shadow: 0 0 10px rgba($info-color, 0.5);
+          }
+        }
+      }
+    }
+
+    // Enhanced 3D dashboard columns
+    .dashboard-column {
+      grid-column: span 2;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      transform-style: preserve-3d;
+
+      @media (max-width: 1200px) {
+        grid-column: span 2;
+      }
+
+      @media (max-width: 768px) {
+        grid-column: span 1;
+        gap: 0.5rem;
+      }
+
+      // Enhanced 3D panels with glass morphism
+      .dashboard-panel {
+        background: var(--surface-card);
+        border-radius: $border-radius;
+        box-shadow:
+          0 $card-depth ($card-depth * 1.5) rgba(0, 0, 0, 0.2),
+          0 4px 8px rgba(255, 255, 255, 0.1) inset;
+        padding: 24px;
+        backdrop-filter: blur(15px);
+        border: 1px solid var(--surface-border);
+        transform-style: preserve-3d;
+        transition: $transition;
+        position: relative;
+
+        &::before {
+          content: "";
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          // background: linear-gradient(135deg, rgba(53, 53, 53, 0.2), rgba(194, 193, 193, 0.05));
+          border-radius: inherit;
+          z-index: -1;
+        }
+
+        &:hover {
+          @include hover-3d-border;
+        }
+
+        .panel-title {
+          font-size: 1.2rem;
+          font-weight: 600;
+          color: var(--text-color-secondary);
+          border-bottom: 1px solid rgba($light-color, 0.1);
+          text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+          transform: translateZ(5px);
+        }
+
+        // Enhanced 3D activity lists with glass effect
+        .activity-list {
+          list-style: none;
+          padding: 0;
+          margin: 0;
+          transform-style: preserve-3d;
+
+          .notification-icon-container,
+          .activity-icon-container {
+            &.red,
+            &.orange {
+              animation: pulse 2s infinite;
+            }
+          }
+
+          li {
+            padding: 12px 0;
+            border-bottom: 1px solid rgba($light-color, 0.1);
+            transition: $transition;
+            transform-style: preserve-3d;
+            transform: translateZ(0);
+
+            &:hover {
+              transform: translateZ(5px);
+              background: rgba(255, 255, 255, 0.05);
+              border-radius: 8px;
+              padding-left: 8px;
+              padding-right: 8px;
+            }
+
+            &:last-child {
+              border-bottom: none;
+            }
+          }
+
+          .download-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 16px;
+            transform-style: preserve-3d;
+
+            .download-type {
+              flex: 0 0 100px;
+              font-weight: 500;
+              color: var(--text-color-secondary);
+              text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+              transform: translateZ(3px);
+            }
+
+            .progress-container {
+              flex: 1;
+              display: flex;
+              align-items: center;
+              gap: 10px;
+              transform-style: preserve-3d;
+
+              .progress-bar-bg {
+                flex: 1;
+                height: 8px;
+                background: rgba($light-color, 0.1);
+                border-radius: 4px;
+                overflow: hidden;
+                transform: translateZ(2px);
+                position: relative;
+
+                .progress-bar {
+                  height: 100%;
+                  border-radius: 4px;
+                  position: relative;
+
+                  &::after {
+                    content: "";
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    width: 100%;
+                    height: 100%;
+                    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+                    animation: shimmer 1.5s infinite;
+                  }
+
+                  @each $name, $color in $colors {
+                    &.#{$name} {
+                      background: $color;
+                    }
+                  }
+                }
+              }
+
+              .progress-value {
+                font-size: 0.8rem;
+                font-weight: 600;
+                transform: translateZ(4px);
+                    color: var(--text-color-secondary);
+
+                @each $name, $color in $colors {
+                  &.#{$name} {
+                    text-shadow: 0 0 8px rgba(0, 0, 0, 0.3);
+                  }
+                }
+              }
+            }
+          }
+
+          .recent-item,
+          .notification-item {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            transform-style: preserve-3d;
+
+            .activity-icon-container,
+            .notification-icon-container {
+              width: 36px;
+              height: 36px;
+              border-radius: 8px;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              flex-shrink: 0;
+              background: var(--surface-card);
+              border: 1px solid var(--surface-border);
+              box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+              transform: translateZ(6px);
+
+              @each $name, $color in $colors {
+                &.#{$name} {
+                  background: $color;
+                }
+              }
+            }
+
+            .activity-content {
+              flex: 1;
+              transform-style: preserve-3d;
+
+              .activity-name {
+                font-weight: 500;
+                display: block;
+                // color: var(--text-color-secondary);
+                text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+                transform: translateZ(4px);
+              }
+
+              .activity-meta {
+                font-size: 0.8rem;
+                // color: var(--text-color-secondary);
+                transform: translateZ(3px);
+              }
+            }
+
+            .notification-content {
+              flex: 1;
+              display: flex;
+              flex-direction: column;
+              transform-style: preserve-3d;
+              color: var(--text-color-secondary);
+
+
+              .notification-timestamp {
+                font-size: 0.75rem;
+                margin-top: 4px;
+                display: block;
+                transform: translateZ(2px);
+              }
+            }
+          }
+        }
+
+        .p-chart {
+          height: 300px;
+          transform: translateZ(3px);
+          transition: transform 0.3s ease;
+          background: rgba(0, 0, 0, 0.2);
+          border-radius: $border-radius;
+          padding: 16px;
+
+          canvas {
+            backdrop-filter: blur(5px);
+          }
+
+          &:hover {
+            transform: translateZ(8px);
+          }
+        }
+      }
+
+      // Enhanced 3D visited cards section
+      .visited-cards {
+        .visited-grid {
+          display: grid;
+          grid-template-columns: repeat(2, 1fr);
+          gap: 1rem;
+          @media (max-width: 768px) {
+            grid-template-columns: 1fr;
+            gap: 0.5rem;
+          }
+        }
+
+        .visited-card {
+          background: var(--surface-card);
+          border-radius: $border-radius;
+          box-shadow:
+            0 $card-depth ($card-depth * 1.5) rgba(0, 0, 0, 0.2),
+            0 4px 8px rgba(255, 255, 255, 0.1) inset;
+          padding: 24px;
+          transition:
+            transform 0.3s ease-out,
+            box-shadow 0.3s ease-out;
+          backdrop-filter: blur(15px);
+          border: 1px solid var(--surface-border);
+          transform-style: preserve-3d;
+          transform: translateZ(0);
+          position: relative;
+
+          &::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            // background: linear-gradient(135deg, rgba(53, 53, 53, 0.2), rgba(194, 193, 193, 0.05));
+            border-radius: inherit;
+            z-index: -1;
+          }
+
+          &:hover {
+            @include hover-3d-border;
+          }
+
+          .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 20px;
+            transform-style: preserve-3d;
+
+            .card-label {
+              color: var(--text-color-secondary);
+              font-size: 1.2rem;
+              font-weight: 500;
+              // opacity: 0.8;
+              display: block;
+              margin-bottom: 8px;
+              text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+              transform: translateZ(5px);
+            }
+
+            .card-value {
+              font-size: 2rem;
+              font-weight: 700;
+              color: var(--text-color-secondary);
+              text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+              transform: translateZ(8px);
+            }
+          }
+
+          .highlight-text {
+            font-weight: 600;
+            font-size: 1rem;
+            color: var(--text-color-secondary);
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+            transform: translateZ(3px);
+            display: block;
+            margin-bottom: 4px;
+          }
+
+          .secondary-text {
+            color: var(--text-color-secondary);
+            font-size: 0.9rem;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+            transform: translateZ(3px);
+            display: block;
+          }
+        }
+      }
+    }
+
+    // Enhanced 3D issue tracking section with glass cards
+    .issue-tracking-section {
+      grid-column: 1 / -1;
+
+      .issue-grid {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 1rem;
+        transform-style: preserve-3d;
+
+        @media (max-width: 1200px) {
+          grid-template-columns: repeat(2, 1fr);
+        }
+
+        @media (max-width: 768px) {
+          grid-template-columns: 1fr;
+          gap: 0.5rem;
+        }
+      }
+
+      .issue-card {
+        background: var(--surface-card);
+        border-radius: $border-radius;
+        box-shadow:
+          0 $card-depth ($card-depth * 1.5) rgba(0, 0, 0, 0.2),
+          0 4px 8px rgba(255, 255, 255, 0.1) inset;
+        padding: 16px;
+        transition: $transition;
+        backdrop-filter: blur(15px);
+        border: 1px solid var(--surface-border);
+        transform-style: preserve-3d;
+        transform: translateZ(0);
+        position: relative;
+
+        &::before {
+          content: "";
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          // background: linear-gradient(135deg, rgba(53, 53, 53, 0.2), rgba(194, 193, 193, 0.05));
+          border-radius: inherit;
+          z-index: -1;
+        }
+
+        &:hover {
+          @include hover-3d-border;
+          transform: translateY(-$hover-lift) translateZ($hover-lift) rotateX(5deg) rotateY(5deg);
+        }
+
+        .issue-card-header {
+          display: flex;
+          justify-content: space-between;
+          align-items: flex-start;
+          margin-bottom: 12px;
+          transform-style: preserve-3d;
+
+          .issue-label {
+            font-size: 0.85rem;
+            color: var(--text-color-secondary);
+            display: block;
+            margin-bottom: 6px;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+            transform: translateZ(3px);
+          }
+
+          .issue-value {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--text-color-secondary);
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+            transform: translateZ(6px);
+          }
+        }
+
+        .issue-highlight {
+          font-weight: 500;
+          font-size: 0.9rem;
+          color: var(--text-color-secondary);
+          text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+          transform: translateZ(4px);
+        }
+
+        .issue-meta {
+          font-size: 0.85rem;
+          color: var(--text-color-secondary);
+          text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+          transform: translateZ(3px);
+        }
+      }
+    }
+  }
+
+  // Enhanced 3D footer with glass effect
+  .app-footer {
+    grid-column: 1 / -1;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 24px 0;
+    margin-top: 24px;
+    border-top: 1px solid rgba($light-color, 0.1);
+    color: var(--text-color-secondary);
+    font-size: 0.85rem;
+    transform-style: preserve-3d;
+
+    &::before {
+      content: "";
+      position: absolute;
+      bottom: -5px;
+      left: 0;
+      width: 100%;
+      height: 5px;
+      background: linear-gradient(to top, rgba(0, 0, 0, 0.2), transparent);
+      transform-origin: bottom;
+      transform: rotateX(60deg);
+    }
+
+    span {
+      transform: translateZ(3px);
+      text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+    }
+
+    .footer-links {
+      display: flex;
+      gap: 16px;
+      transform-style: preserve-3d;
+
+      a {
+        color: var(--text-color-secondary);
+        text-decoration: none;
+        transition: $transition;
+        transform: translateZ(3px);
+        text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+
+        &:hover {
+          color: var(--text-color-secondary);
+          text-shadow: 0 0 8px rgba($primary-color, 0.5);
+          transform: translateZ(6px);
+        }
+      }
+    }
+  }
+
+  // Enhanced 3D icon containers with glass effect
+  .icon-container {
+    width: 48px;
+    height: 48px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--surface-card);
+    border: 1px solid var(--surface-border);
+    box-shadow:
+      0 8px 16px rgba(0, 0, 0, 0.2),
+      0 2px 4px rgba(255, 255, 255, 0.1) inset;
+    transform-style: preserve-3d;
+    transform: translateZ(10px);
+    transition: $transition;
+
+    @each $name, $color in $colors {
+      &.#{$name} {
+        background: $color;
+
+        &::after {
+          content: "";
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          border-radius: inherit;
+          background: linear-gradient(135deg, rgba(255, 255, 255, 0.2), transparent);
+          z-index: 1;
+        }
+      }
+    }
+
+    &:hover {
+      transform: translateZ(15px) rotateY(15deg);
+    }
+
+    .icon {
+      font-size: 1.5rem;
+      // color: var(--text-color-secondary);
+      text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+      transform: translateZ(5px);
+    }
+  }
+
+  // Enhanced 3D no data state with glass effect
+  .no-data {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+    color: var(--text-color-secondary);
+    transform-style: preserve-3d;
+
+    .no-data-icon {
+      font-size: 2rem;
+      margin-bottom: 12px;
+      opacity: 0.7;
+      transform: translateZ(8px);
+      text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+    }
+
+    span {
+      transform: translateZ(4px);
+      text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+    }
+  }
+
+  // Enhanced modern animations
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(30px) translateZ(-10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0) translateZ(0);
+    }
+  }
+
+  @keyframes shimmer {
+    0% {
+      transform: translateX(-100%);
+    }
+    100% {
+      transform: translateX(100%);
+    }
+  }
+
+  @keyframes pulse {
+    0% {
+      box-shadow: 0 0 0 0 rgba($primary-color, 0.4);
+    }
+    70% {
+      box-shadow: 0 0 0 10px rgba($primary-color, 0);
+    }
+    100% {
+      box-shadow: 0 0 0 0 rgba($primary-color, 0);
+    }
+  }
+}
+
+.dashboard-error-wrapper {
+  min-height: $height-main-container;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(135deg, #1a1a1a 0%, #0a0a0a 100%);
+  border-radius: $border-radius-layout-base;
+}

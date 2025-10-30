@@ -1,0 +1,268 @@
+.element-code-editor__wrapper {
+    display: flex;
+    flex-grow: 1;
+    border: 1px solid var(--surface-border);
+    border-top: transparent;
+    border-radius: 0 0 6px 6px;
+    overflow: hidden;
+    height: 100%;
+
+    .preview-panel {
+        width: 100%;
+        height: 100%;
+        background-image: radial-gradient(var(--bg-content-dot) 0.8px, var(--surface-ground) 0.8px);
+        background-size: 24px 24px;
+        padding: 1rem;
+        display: flex;
+
+        align-items: center;
+        justify-content: center;
+        .error-container {
+            padding: 1rem;
+            color: var(--red-500);
+            background-color: var(--surface-ground);
+            flex: 1;
+            overflow: auto;
+
+            .error-title {
+                font-weight: bold;
+                margin-bottom: 0.5rem;
+            }
+
+            .error-message {
+                white-space: pre-wrap;
+                font-family: monospace;
+                background-color: var(--surface-card);
+                padding: 0.5rem;
+                border-radius: 4px;
+                overflow: auto;
+            }
+        }
+
+        .error-display {
+            padding: 1rem;
+            border-top: 1px solid var(--surface-border);  
+            color: #721c24;
+            font-size: 0.875rem;
+            max-height: 30%;
+            overflow: auto;
+            width: 100%;
+            flex-shrink: 0;
+
+            p {
+                margin: 0;
+                font-family: monospace;
+                white-space: pre-wrap;
+            }
+        }
+    }
+
+    .editor-panel {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        background-color: var(--surface-ground);
+        overflow: hidden;
+        @media (min-width: 768px) {
+            width: 50%;
+        }
+
+        .editor-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.5rem 1rem;
+            background-color: var(--surface-ground);
+            border-bottom: 1px solid var(--surface-border);
+            flex-shrink: 0;
+
+            .category-tabs {
+                display: flex;
+                gap: 0.5rem;
+
+                .category-tab {
+                    padding: 0.375rem 0.75rem;
+                    background-color: var(--surface-overlay);
+                    color: var(--text-color);
+                    border: none;
+                    border-radius: 4px;
+                    font-size: 0.8125rem;
+                    cursor: pointer;
+                    transition: all 0.2s;
+
+                    &:hover {
+                        background-color: var(--surface-hover);
+                    }
+
+                    &.active {
+                        background-color: var(--primary-color);
+                        color: var(--text-color);
+                    }
+                }
+            }
+
+            .editor-actions {
+                display: flex;
+                gap: 0.5rem;
+
+                .editor-button {
+                    padding: 0.375rem 0.75rem;
+                    border: none;
+                    border-radius: 4px;
+                    font-size: 0.8125rem;
+                    font-weight: 500;
+                    cursor: pointer;
+                    transition: all 0.2s;
+
+                    &:hover {
+                        opacity: 0.9;
+                        transform: translateY(-1px);
+                    }
+
+                    &.format-button,
+                    &.reset-button {
+                        background-color: var(--surface-overlay);
+                        color: var(--text-color);
+                        border: 1px solid var(--surface-border);
+
+                        &:hover {
+                            background-color: var(--surface-hover);
+                            border-color: var(--primary-color);
+                        }
+                    }
+
+                    &.copy-button {
+                        background-color: var(--primary-color);
+                        color: var(--text-color);
+
+                        &:hover {
+                            background-color: var(--primary-600);
+                        }
+
+                        &.copied {
+                            background-color: var(--green-500);
+                        }
+                    }
+                }
+            }
+        }
+
+        .tabs-container {
+            width: 100%;
+            overflow-x: auto;
+            scrollbar-width: none;
+        }
+
+        .language-tabs {
+            display: flex;
+            white-space: nowrap;
+            min-height: 36px;
+            align-items: center;
+            background-color: var(--surface-ground);
+
+            .tab-item {
+                display: inline-flex;
+                align-items: center;
+                min-width: 100px;
+                max-width: 160px;
+                height: 34px;
+                position: relative;
+                background-color: var(--surface-section);
+                border: 1px solid transparent;
+                border-right: 1px solid var(--surface-border);
+                border-top: 2px solid transparent;
+
+                &:hover {
+                    background-color: var(--surface-hover);
+                }
+
+                &.active {
+                    border-top: 2px solid var(--primary-color);
+                }
+
+                .language-tab {
+                    flex: 1;
+                    height: 100%;
+                    border: none;
+                    background: transparent;
+                    cursor: pointer;
+                    color: var(--text-color)        ;
+                    text-align: left;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                    white-space: nowrap;
+                    font-size: 0.8125rem;
+                }
+
+                &.active .language-tab {
+                    color: var(--text-color);
+                    font-weight: 500;
+                }
+
+                .tab-close-btn {
+                    padding: 0 2px;
+                    background: transparent;
+                    border: none;
+                    cursor: pointer;
+                    font-size: 10px;
+                    color: var(--text-secondary-color);
+                    height: 100%;
+                    display: flex;
+                    align-items: center;
+
+                    &:hover {
+                        color: var(--text-color);
+                    }
+                }
+            }
+
+            .add-language-btn {
+                min-width: 32px;
+                height: 32px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                background-color: transparent;
+                border: none;
+                cursor: pointer;
+                color: var(--text-secondary-color);
+                font-size: 16px;
+                margin-left: 4px;
+
+                &:hover {
+                    color: var(--text-color);
+                }
+            }
+        }
+
+        .code-editor-container {
+            width: 100%;
+            height: calc(100% - 36px);
+            flex: 1;
+            overflow: hidden;
+            /* Target the specific widget area (the red-bordered section) */
+            .monaco-editor .zone-widget,
+            .monaco-editor .zone-widget-container,
+            .monaco-editor .peekview-widget,
+            .monaco-editor .reference-zone-widget,
+            .monaco-editor .peekview-editor,
+            .monaco-editor .peekview-editor .monaco-editor-background {
+                background-color: var(--surface-ground);
+            }
+            /* Target the widget header */
+            .monaco-editor .zone-widget-header,
+            .monaco-editor .peekview-title,
+            .monaco-editor .reference-zone-widget .ref-tree .monaco-list {
+                background-color: var(--surface-ground);
+            }
+            /* Widget content */
+            .monaco-editor .peekview-widget .monaco-list,
+            .monaco-editor .peekview-widget .monaco-list-row,
+            .monaco-editor .peek-view-widget .head,
+            .monaco-editor .peek-view-widget .body {
+                background-color: var(--surface-ground);
+            }
+        }
+    }
+}

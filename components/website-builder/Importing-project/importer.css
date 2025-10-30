@@ -1,0 +1,542 @@
+/* Layout */
+.app-container__wrapper {
+  display: flex;
+  min-height: 100vh;
+
+
+  .sidebar {
+    width: 300px;
+    background-color: var(--surface-card);
+    border-right: 1px solid var(--surface-border);
+    padding: 1.5rem;
+    overflow-y: auto;
+  }
+
+  .main-content {
+    flex: 1;
+    padding: 2rem;
+    overflow-y: auto;
+  }
+
+  /* Header */
+  .header {
+    margin-bottom: 2rem;
+  }
+
+  .header h1 {
+    color: var(--primary-color);
+    margin-bottom: 0.5rem;
+  }
+
+  .header p {
+    color: var(--text-color-secondary);
+    font-size: 1rem;
+  }
+
+  /* Import Section */
+  .import-section {
+    margin-bottom: 2rem;
+  }
+
+  .import-area {
+    border: 2px dashed var(--surface-border);
+    border-radius: var(--border-radius);
+    padding: 3rem;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    background-color: var(--surface-card);
+  }
+
+  .import-area:hover,
+  .import-area.drag-over {
+    border-color: var(--primary-color);
+    background-color: var(--highlight-bg);
+  }
+
+  .import-icon {
+    width: 48px;
+    height: 48px;
+    margin: 0 auto 1rem;
+    color: var(--surface-400);
+  }
+
+  .import-text {
+    font-size: 1.125rem;
+    color: var(--text-color-secondary);
+    margin-bottom: 0.5rem;
+  }
+
+  .import-subtitle {
+    color: var(--surface-400);
+    font-size: 0.875rem;
+  }
+
+  .import-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+  }
+
+  .import-buttons .primary {
+    background-color: var(--primary-color);
+    color: var(--primary-color-text);
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: inline-flex;
+  }
+
+  .import-buttons .secondary {
+    background-color: var(--surface-200);
+    color: var(--text-color);
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: inline-flex;
+  }
+
+  /* Project Type Modal */
+  .modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: var(--maskbg);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+  }
+
+  .modal {
+    background-color: var(--surface-overlay);
+    border-radius: var(--border-radius);
+    padding: 2rem;
+    max-width: 500px;
+    width: 90%;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+  }
+
+  .modal h3 {
+    margin-bottom: 1rem;
+    text-align: center;
+    color: var(--text-color);
+  }
+
+  .project-types {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .project-type {
+    padding: 1rem;
+    border: 2px solid var(--surface-border);
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    text-align: center;
+    transition: all 0.2s ease;
+    background-color: var(--surface-ground);
+  }
+
+  .project-type:hover {
+    border-color: var(--primary-color);
+    background-color: var(--surface-hover);
+  }
+
+  .project-type.selected {
+    border-color: var(--primary-color);
+    background-color: var(--highlight-bg);
+  }
+
+  .project-type-icon {
+    width: 32px;
+    height: 32px;
+    margin: 0 auto 0.5rem;
+    color: var(--primary-color);
+  }
+
+  .project-type-name {
+    font-weight: 600;
+    margin-bottom: 0.25rem;
+    color: var(--text-color);
+  }
+
+  .project-type-desc {
+    font-size: 0.75rem;
+    color: var(--surface-400);
+  }
+
+  /* Button styles */
+  .btn {
+    padding: 0.75rem 1.5rem;
+    border: none;
+    border-radius: var(--border-radius);
+    font-size: 0.875rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .btn-primary {
+    background-color: var(--primary-color);
+    color: var(--primary-color-text);
+  }
+
+  .btn-primary:hover {
+    background-color: var(--primary-color);
+    opacity: 0.9;
+  }
+
+  .btn-secondary {
+    background-color: transparent;
+    color: var(--text-color-secondary);
+    border: 1px solid var(--surface-border);
+  }
+
+  .btn-secondary:hover {
+    background-color: var(--surface-hover);
+  }
+
+  .modal-actions {
+    display: flex;
+    gap: 1rem;
+    justify-content: flex-end;
+  }
+
+  /* Projects List */
+  .projects-list {
+    margin-bottom: 2rem;
+  }
+
+  .projects-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 1rem;
+  }
+
+  .project-card {
+    background-color: var(--surface-card);
+    border: 1px solid var(--surface-border);
+    border-radius: var(--border-radius);
+    padding: 1.5rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
+  }
+
+  .project-card:hover {
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    border-color: var(--primary-color);
+  }
+
+  .project-header {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 1rem;
+  }
+
+  .project-icon {
+    width: 24px;
+    height: 24px;
+    color: var(--primary-color);
+  }
+
+  .project-name {
+    font-weight: 600;
+    font-size: 1.125rem;
+    color: var(--text-color);
+  }
+
+  .project-type-badge {
+    background-color: var(--highlight-bg);
+    color: var(--primary-color);
+    padding: 0.25rem 0.5rem;
+    border-radius: var(--border-radius);
+    font-size: 0.75rem;
+    font-weight: 500;
+    margin-left: auto;
+  }
+
+  .project-stats {
+    display: flex;
+    gap: 1rem;
+    font-size: 0.875rem;
+    color: var(--text-color-secondary);
+  }
+
+  /* File Tree */
+  .file-tree-container {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+  }
+
+  .file-tree {
+    background-color: var(--surface-card);
+    border: 1px solid var(--surface-border);
+    border-radius: var(--border-radius);
+    overflow: hidden;
+  }
+
+  .file-tree-header {
+    background-color: var(--surface-a);
+    padding: 1rem;
+    border-bottom: 1px solid var(--surface-border);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--text-color);
+  }
+
+  .file-tree-content {
+    max-height: 600px;
+    overflow-y: auto;
+    padding: 1rem;
+  }
+
+  .file-item {
+    display: flex;
+    align-items: center;
+    padding: 0.5rem;
+    cursor: pointer;
+    border-radius: var(--border-radius);
+    transition: background-color 0.2s ease;
+  }
+
+  .file-item:hover {
+    background-color: var(--surface-hover);
+  }
+
+  .file-item.selected {
+    background-color: var(--highlight-bg);
+  }
+
+  .file-icon {
+    width: 16px;
+    height: 16px;
+    margin-right: 0.5rem;
+    color: var(--surface-400);
+  }
+
+  .file-icon.folder {
+    color: #f59e0b;
+  }
+
+  .file-icon.file {
+    color: var(--text-color-secondary);
+  }
+
+  .file-name {
+    flex: 1;
+    font-size: 0.875rem;
+    color: var(--text-color);
+  }
+
+  .file-children {
+    margin-left: 1rem;
+  }
+
+  .expand-icon {
+    width: 12px;
+    height: 12px;
+    margin-right: 0.25rem;
+    color: var(--surface-400);
+    transition: transform 0.2s ease;
+  }
+
+  .expand-icon.expanded {
+    transform: rotate(90deg);
+  }
+
+  /* Search */
+  .search-box {
+    width: 100%;
+    padding: 0.75rem;
+    border: 1px solid var(--surface-border);
+    border-radius: var(--border-radius);
+    font-size: 0.875rem;
+    margin-bottom: 1rem;
+    background-color: var(--surface-ground);
+    color: var(--text-color);
+  }
+
+  .search-box:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: var(--focus-ring);
+  }
+
+  /* Code Preview */
+  .code-preview {
+    background-color: var(--surface-b);
+    color: var(--text-color);
+    padding: 1rem;
+    border-radius: var(--border-radius);
+    font-family: 'Monaco', 'Consolas', monospace;
+    font-size: 0.875rem;
+    line-height: 1.5;
+    overflow-x: auto;
+    margin-top: 1rem;
+    border: 1px solid var(--surface-border);
+  }
+
+  .code-preview pre {
+    margin: 0;
+  }
+
+  /* Loading */
+  .loading {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+    color: var(--text-color-secondary);
+  }
+
+  .spinner {
+    width: 20px;
+    height: 20px;
+    border: 2px solid var(--surface-border);
+    border-top: 2px solid var(--primary-color);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin-right: 0.5rem;
+  }
+
+  @keyframes spin {
+    0% {
+      transform: rotate(0deg);
+    }
+
+    100% {
+      transform: rotate(360deg);
+    }
+  }
+
+  /* Responsive */
+  @media (max-width: 768px) {
+    .app-container {
+      flex-direction: column;
+    }
+
+    .sidebar {
+      width: 100%;
+      border-right: none;
+      border-bottom: 1px solid var(--surface-border);
+    }
+
+    .main-content {
+      padding: 1rem;
+    }
+
+    .projects-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .project-types {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  /* Empty state */
+  .empty-state {
+    text-align: center;
+    padding: 3rem 1rem;
+    color: var(--surface-400);
+  }
+
+  .empty-state-icon {
+    width: 64px;
+    height: 64px;
+    margin: 0 auto 1rem;
+    color: var(--surface-400);
+  }
+
+  /* Animations */
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(10px);
+    }
+
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .fade-in {
+    animation: fadeIn 0.3s ease-out;
+  }
+
+  .slide-up {
+    animation: slideUp 0.3s ease-out;
+  }
+
+  @keyframes slideUp {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  /* Export button */
+  .export-btn {
+    background-color: #10b981;
+    color: white;
+    margin-left: 1rem;
+  }
+
+  .export-btn:hover {
+    background-color: #059669;
+  }
+
+  /* File path display */
+  .file-path {
+    font-family: 'Monaco', 'Consolas', monospace;
+    font-size: 0.75rem;
+    color: var(--surface-400);
+    margin-left: 0.5rem;
+  }
+
+  /* Project structure display */
+  .structure-display {
+    background-color: var(--surface-a);
+    border: 1px solid var(--surface-border);
+    border-radius: var(--border-radius);
+    padding: 1rem;
+    margin-top: 1rem;
+  }
+
+  .structure-title {
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+    color: var(--text-color);
+  }
+
+  .structure-content {
+    font-family: 'Monaco', 'Consolas', monospace;
+    font-size: 0.75rem;
+    color: var(--text-color-secondary);
+    white-space: pre-wrap;
+    max-height: 300px;
+    overflow-y: auto;
+  }
+}

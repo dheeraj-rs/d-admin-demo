@@ -1,0 +1,369 @@
+.pin-auth__wrapper {
+    .pin-auth__back-button-container {
+        position: absolute;
+        top: 2rem;
+        left: 2rem;
+        z-index: 10;
+        
+        @media (max-width: 480px) {
+            top: 1rem;
+            left: 1rem;
+        }
+    }
+
+    .pin-auth__back-link {
+        display: flex;
+        align-items: center;
+        gap: var(--inline-spacing);
+        padding: var(--inline-spacing);
+        border-radius: var(--border-radius);
+        background-color: var(--surface-overlay);
+        border: 1px solid var(--surface-border);
+        color: var(--text-color);
+        font-size: 0.875rem;
+        transition: all var(--transition-speed) ease;
+        backdrop-filter: blur(10px);
+
+        &:hover {
+            background-color: var(--surface-hover);
+            transform: translateY(-2px);
+        }
+
+        &:active {
+            transform: scale(0.98);
+        }
+    }
+
+    .pin-auth__container {
+        min-height: 100vh;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background-color: var(--surface-ground);
+        padding: var(--content-padding);
+        overflow: hidden;
+
+        &::before {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at center, var(--surface-d) 0%, transparent 70%);
+            pointer-events: none;
+        }
+    }
+
+    .pin-auth__card {
+        width: 100%;
+        max-width: 350px;
+        padding: calc(var(--content-padding) * 2) calc(var(--content-padding) * 1.5);
+        text-align: center;
+        backdrop-filter: blur(20px);
+        border-radius: var(--border-radius);
+        border: 1px solid var(--surface-border);
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+        position: relative;
+        overflow: hidden;
+
+        @media (max-width: 480px) {
+            max-width: 320px;
+            padding: calc(var(--content-padding) * 1.5) var(--content-padding);
+        }
+    }
+
+    .pin-auth__logo {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin-bottom: var(--content-padding);
+    }
+
+    .pin-auth__logo-circle {
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        background: var(--surface-ground);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+
+        &::before {
+            content: "";
+            position: absolute;
+            width: 62px;
+            height: 62px;
+            border-radius: 50%;
+            background: conic-gradient(
+                from 0deg,
+                var(--surface-100),
+                var(--surface-200),
+                var(--surface-300),
+                var(--primary-color),
+                var(--surface-200)
+            );
+            animation: pin-rotate 4s linear infinite;
+        }
+    }
+
+    .pin-auth__logo-icon {
+        position: relative;
+        z-index: 1;
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        background: var(--surface-ground);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .pin-auth__title {
+        font-size: 1.5rem;
+        font-weight: 500;
+        color: var(--text-color);
+        line-height: 1.2;
+        margin-bottom: var(--content-padding);
+    }
+
+    .pin-auth__form-fields {
+        margin-bottom: var(--content-padding);
+    }
+
+    .pin-auth__input-group {
+        margin-bottom: calc(var(--content-padding) * 0.75);
+        
+        &:last-child {
+            margin-bottom: 0;
+        }
+    }
+
+    .pin-auth__text-input {
+        width: 100%;
+        padding: 0.625rem 0.875rem;
+        border-radius: var(--border-radius);
+        background-color: var(--surface-c);
+        border: 1px solid var(--surface-border);
+        color: var(--text-color);
+        font-size: 0.875rem;
+        transition: all var(--transition-speed) ease;
+
+        &:focus {
+            outline: var(--focus-ring);
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 2px var(--highlight-bg);
+        }
+
+        &::placeholder {
+            color: var(--text-color-secondary);
+        }
+
+        &:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+    }
+
+    .pin-auth__display {
+        min-height: 2.5rem;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        position: relative;
+        margin-bottom: var(--content-padding);
+    }
+
+    .pin-auth__dots {
+        display: flex;
+        justify-content: center;
+        gap: 16px;
+        margin-bottom: var(--inline-spacing);
+
+        @media (max-width: 380px) {
+            gap: 12px;
+        }
+    }
+
+    .pin-auth__dot {
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+        background-color: var(--text-color-secondary);
+        transition: all var(--transition-speed) ease;
+
+        &--active {
+            background-color: var(--primary-color);
+            transform: scale(1.2);
+        }
+    }
+
+    .pin-auth__error,
+    .pin-auth__success {
+        position: absolute;
+        bottom: -2px;
+        left: 0;
+        right: 0;
+        height: 20px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        font-size: 0.75rem;
+    }
+
+    .pin-auth__error {
+        color: #f44336;
+        animation: pin-auth-shake 0.5s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
+    }
+
+    .pin-auth__success {
+        color: #4CAF50;
+        animation: pin-auth-fade-in 0.5s ease-in;
+    }
+
+    .pin-auth__loading-inline {
+        position: absolute;
+        bottom: -2px;
+        left: 0;
+        right: 0;
+        height: 20px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        font-size: 0.75rem;
+    }
+
+    .pin-auth__loading-spinner-small {
+        width: 16px;
+        height: 16px;
+        border: 2px solid var(--surface-border);
+        border-top: 2px solid var(--primary-color);
+        border-radius: 50%;
+        animation: pin-auth-spin 1s linear infinite;
+    }
+
+    .pin-auth__keypad {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        grid-gap: 10px;
+        max-width: 240px;
+        margin: 0 auto var(--content-padding);
+
+        @media (max-width: 380px) {
+            grid-gap: 8px;
+            max-width: 220px;
+        }
+    }
+
+    .pin-auth__keypad-button {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 56px;
+        height: 56px;
+        border-radius: 50%;
+        background-color: var(--surface-c);
+        border: 1px solid var(--surface-border);
+        font-size: 1.25rem;
+        color: var(--text-color);
+        transition: all var(--transition-speed) ease;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+
+        @media (max-width: 380px) {
+            width: 52px;
+            height: 52px;
+            font-size: 1.125rem;
+        }
+
+        &:hover:not(:disabled) {
+            background-color: var(--surface-hover);
+            transform: translateY(-2px);
+        }
+
+        &:active:not(:disabled) {
+            transform: scale(0.95);
+        }
+
+        &:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+    }
+
+    .pin-auth__actions {
+        margin-top: calc(var(--content-padding) * 1.5);
+        display: flex;
+        justify-content: center;
+    }
+
+    .pin-auth__loading {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: var(--inline-spacing);
+        margin: var(--content-padding) 0;
+    }
+
+    .pin-auth__loading-spinner {
+        width: 32px;
+        height: 32px;
+        border: 3px solid var(--surface-border);
+        border-top: 3px solid var(--primary-color);
+        border-radius: 50%;
+        animation: pin-auth-spin 1s linear infinite;
+    }
+
+    .pin-auth__loading p {
+        font-size: 0.875rem;
+        color: var(--text-color-secondary);
+        margin: 0;
+    }
+
+    .pin-auth__set-pin-link {
+        display: inline-block;
+        padding: var(--inline-spacing) calc(var(--inline-spacing) * 2.5);
+        border-radius: var(--border-radius);
+        font-size: 0.875rem;
+        background-color: transparent;
+        color: var(--text-color-secondary);
+        border: 1px solid var(--surface-border);
+        transition: all var(--transition-speed) ease;
+        
+        &:hover {
+            background-color: var(--surface-c);
+            color: var(--text-color);
+            transform: translateY(-2px);
+        }
+        
+        &:active {
+            transform: scale(0.98);
+        }
+    }
+}
+
+// Keyframe animations
+@keyframes pin-auth-spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+@keyframes pin-auth-shake {
+    10%, 90% { transform: translate3d(-1px, 0, 0); }
+    20%, 80% { transform: translate3d(2px, 0, 0); }
+    30%, 50%, 70% { transform: translate3d(-4px, 0, 0); }
+    40%, 60% { transform: translate3d(4px, 0, 0); }
+}
+
+@keyframes pin-auth-fade-in {
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes pin-rotate {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}

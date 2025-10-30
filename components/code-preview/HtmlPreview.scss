@@ -1,0 +1,81 @@
+// HtmlPreview Component Styles
+// These styles are isolated to prevent conflicts with the main project
+
+.html-preview {
+  height: 100%;
+  width: 100%;
+  position: relative;
+  
+  &-loading {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    margin-top: 0.75rem;
+    
+    &-content {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    
+    &-spinner {
+      width: 2rem;
+      height: 2rem;
+      border: 2px solid transparent;
+      border-bottom: 2px solid #3b82f6;
+      border-radius: 50%;
+      animation: html-preview-spin 1s linear infinite;
+    }
+  }
+  
+  &-css-error {
+    background-color: rgba(239, 68, 68, 0.1);
+    border: 1px solid #ef4444;
+    color: #fca5a5;
+    padding: 0.75rem;
+    margin: 0.5rem;
+    border-radius: 0.25rem;
+    font-size: 0.875rem;
+  }
+  
+  &-js-error {
+    position: absolute;
+    bottom: 1rem;
+    left: 1rem;
+    right: 1rem;
+    background-color: rgba(239, 68, 68, 0.1);
+    border: 1px solid #ef4444;
+    color: #fca5a5;
+    padding: 0.75rem;
+    border-radius: 0.25rem;
+    font-size: 0.875rem;
+  }
+  
+  &-error-pre {
+    margin-top: 0.25rem;
+    font-size: 0.75rem;
+    overflow: auto;
+  }
+  
+  &-error-message {
+    margin-top: 0.25rem;
+    font-size: 0.75rem;
+  }
+}
+
+.html-content {
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+}
+
+@keyframes html-preview-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+} 

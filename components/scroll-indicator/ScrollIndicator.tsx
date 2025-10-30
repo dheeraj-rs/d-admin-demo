@@ -1,0 +1,29 @@
+"use client";
+
+import React, { useState, useEffect } from 'react';
+
+const ScrollIndicator = () => {
+  const [scrollProgress, setScrollProgress] = useState(0);
+  useEffect(() => {
+    const updateScrollProgress = () => {
+      const scrollPx = document.documentElement.scrollTop;
+      const winHeightPx = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+      const scrolled = (scrollPx / winHeightPx) * 100;
+      setScrollProgress(scrolled);
+    };
+
+    window.addEventListener('scroll', updateScrollProgress);
+    return () => window.removeEventListener('scroll', updateScrollProgress);
+  }, []);
+
+  return (
+    <div className="scroll-indicator-bar">
+      <div 
+        className="scroll-indicator-bar-indicator" 
+        style={{ height: `${scrollProgress}%` }}
+      />
+    </div>
+  );
+};
+
+export default ScrollIndicator; 

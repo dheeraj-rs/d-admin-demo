@@ -1,0 +1,24 @@
+.card {
+    background: var(--surface-section);
+    border: 1px solid var(--surface-border);
+    padding: 1rem;
+    margin-bottom: 1rem;
+    box-shadow: var(--card-shadow);
+    border-radius: 6px;
+
+    &:last-child {
+        margin-bottom: 0;
+    }
+    .card-title {
+        font-size: 1.5rem;
+        font-weight: 600;
+        margin: 0 0 0.5rem 0;
+    }
+
+    .card-subtitle {
+        color: #6c757d;
+        font-weight: 400;
+        margin-bottom: 1rem;
+    }
+
+}

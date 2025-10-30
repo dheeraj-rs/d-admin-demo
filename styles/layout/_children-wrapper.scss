@@ -1,0 +1,52 @@
+@use './variables' as *;
+
+.children__wrapper {
+    min-height: $height-main-container;
+    transition: min-height 0.3s;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+}
+
+.children__fixed-h-wrapper{
+    min-height: $height-main-container;
+    max-height: $height-main-container;
+    transition: min-height 0.3s;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    background-size: 20px 20px;
+}
+
+.navbar__wrapper {
+    position: sticky;
+    top: calc($height-topbar-base + $padding-layout-base * 2);
+    z-index: 997;
+    &::before {
+        content: "";
+        position: absolute;
+        top: -0.8rem;
+        left: 0;
+        width: 100%;
+        height: 3rem;
+        z-index: 0;
+        backdrop-filter: blur(8px);
+    }
+}
+
+.bottombar__wrapper {
+    position: sticky;
+    bottom: $padding-layout-base;
+    margin-top: auto;
+    z-index: 997;
+    &::after {
+        content: "";
+        position: absolute;
+        bottom: -0.5rem;
+        left: 0;
+        width: 100%;
+        height: 3rem;
+        backdrop-filter: blur(8px);
+        z-index: -1;
+    }
+}

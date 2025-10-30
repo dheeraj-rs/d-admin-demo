@@ -1,0 +1,119 @@
+.elements-list__wrapper {
+  grid-gap: 0.5rem;
+  padding: 0.5rem 0;
+  margin: 0;
+  transition: opacity 0.2s ease-in-out;
+  width: 100%;
+  height: 100%;
+  &.grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  }
+
+  &.list{
+    display: flex;
+    flex-direction: column;
+  }
+
+  &.element-visible {
+    .element-card {
+      animation: element-revealItem 0.5s ease-out forwards;
+      @for $i from 1 through 8 {
+        &:nth-child(#{$i}) {
+          animation-delay: #{$i * 0.05}s;
+        }
+      }
+
+      transition:
+        opacity 0.3s ease-out,
+        transform 0.3s ease-out;
+    }
+  }
+
+  .element-card {
+    // border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    border: 1px solid transparent;
+    height: max-content;
+    display: flex;
+    flex-direction: column;
+    .element-card-actions {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 0.5rem;
+      position: absolute;
+      bottom: 0.5rem;
+      right: 0.5rem;
+      z-index: 999;
+      border-radius: 6px;
+
+      .get-code-overlay,
+      .element-delete-btn {
+        padding: 8px 12px;
+        border-radius: 6px;
+        display: flex;
+        gap: 6px;
+        opacity: 0;
+        transition: opacity 0.3s ease;
+        background-color: transparent;
+        backdrop-filter: blur(10px);
+        border: 1px solid transparent;
+        cursor: pointer;
+
+        .code-icon {
+          width: 16px;
+          height: 16px;
+          color: var(--text-color);
+        }
+
+        .get-code-text {
+          color: var(--text-color);
+          font-size: 12px;
+          font-weight: 500;
+        }
+
+        &:hover {
+          border: 1px solid var(--surface-border);
+        }
+      }
+    }
+
+    &:hover {
+      // transform: translateY(-6px) scale(1.02);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+      border-color: rgba(var(--surface-border-rgb), 0.15);
+      border: 1px solid var(--surface-border);
+      cursor: pointer;
+
+      .element-card-actions {
+        .get-code-overlay {
+          background-color: var(--surface-ground);
+          opacity: 1;
+        }
+
+        .element-delete-btn {
+          background-color: var(--surface-ground);
+          opacity: 1;
+        }
+      }
+    }
+
+    a {
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+      width: 100%;
+      text-decoration: none;
+    }
+  }
+
+  .element-preview {
+    position: relative;
+    overflow: hidden;
+    flex: 1;
+  }
+}

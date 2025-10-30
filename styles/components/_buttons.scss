@@ -1,0 +1,105 @@
+// Common styles for GlowButton and GlowButtonTransparent
+.glow-button,
+.glow-button-transparent {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 12px 24px;
+    font-size: 16px;
+    font-weight: 600;
+    color: #fff;
+    background: linear-gradient(135deg, #4285f4, #34a853);
+    border: none;
+    border-radius: 30px;
+    text-decoration: none;
+    box-shadow: 0 4px 8px rgba(66, 133, 244, 0.3);
+    overflow: hidden;
+    transition: all 0.3s;
+
+    &:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 10px 20px rgba(66, 133, 244, 0.4);
+    }
+
+    &:active {
+        transform: translateY(1px);
+        box-shadow: 0 4px 8px rgba(66, 133, 244, 0.3);
+    }
+}
+
+// GlowButton
+.glow-button {
+    background: linear-gradient(135deg, #4285f4, #0d47a1);
+    .glow-button-text {
+        color: #fff;
+    }
+    .glow-effect {
+        position: absolute;
+        width: 20px;
+        height: 20px;
+        border-radius: 50%;
+        background-color: rgba(255, 255, 255, 0.5);
+        filter: blur(8px);
+        animation: nfp-glow 4s infinite alternate;
+    }
+}
+
+// GlowButtonTransparent
+.glow-button-transparent {
+    background: linear-gradient(135deg, rgba(10, 20, 40, 0.8), rgba(10, 20, 40, 0.4));
+    border: 1px solid rgba(64, 180, 255, 0.5);
+    backdrop-filter: blur(8px);
+    position: relative;
+    overflow: hidden;
+
+    &::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+        transition: 0.5s;
+    }
+
+    &:hover::before {
+        left: 100%;
+    }
+    .glow-button-text {
+        color: #fff;
+    }
+
+    .glow-button-dots {
+        display: flex;
+        gap: 4px;
+        margin-left: 8px;
+    }
+
+    .glow-dot {
+        width: 4px;
+        height: 4px;
+        background-color: currentColor;
+        border-radius: 50%;
+        display: inline-block;
+        opacity: 0;
+        animation: dotPulse 1.5s infinite;
+    }
+}
+
+// Animations
+@keyframes dotPulse {
+    0% {
+        opacity: 0;
+        transform: scale(0.5);
+    }
+    50% {
+        opacity: 1;
+        transform: scale(1);
+    }
+    100% {
+        opacity: 0;
+        transform: scale(0.5);
+    }
+}

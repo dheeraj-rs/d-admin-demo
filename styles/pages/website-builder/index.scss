@@ -1,0 +1,55 @@
+@use './variables' as *;
+@use "./_mixins" as *;
+@use "./_websites-builder-sidebar";
+@use "./_website-builder-canvas";
+@use "./_website-builder-reactflow-canvas";
+
+/* Cache Indicator Styles */
+.cache-indicator {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 500;
+  transition: all 0.2s ease;
+  
+  .cache-icon {
+    transition: color 0.2s ease;
+    
+    &.cached {
+      color: #10b981; // Green for cached
+    }
+    
+    &.not-cached {
+      color: #6b7280; // Gray for not cached
+    }
+  }
+  
+  .cache-text {
+    color: #6b7280;
+    font-size: 11px;
+    white-space: nowrap;
+  }
+  
+  &:hover {
+    background-color: rgba(0, 0, 0, 0.05);
+    
+    .cache-text {
+      color: #374151;
+    }
+  }
+}
+
+/* Responsive adjustments for cache indicator */
+@media (max-width: 768px) {
+  .cache-indicator {
+    padding: 4px 8px;
+    
+    .cache-text {
+      display: none; // Hide text on mobile, keep icon
+    }
+  }
+}
+

@@ -1,0 +1,138 @@
+.role-based-route-loading {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 99999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--surface-ground);
+    opacity: 1;
+    transition: opacity 0.3s ease-in-out;
+}
+
+.role-based-route-error {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 99999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--surface-ground);
+    opacity: 1;
+    transition: opacity 0.3s ease-in-out;
+}
+
+.role-based-route-error-content {
+    background: var(--surface-card);
+    border-radius: 12px;
+    padding: 2rem;
+    text-align: center;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    max-width: 400px;
+    width: 90%;
+    opacity: 1;
+    transform: translateY(0);
+    transition: all 0.3s ease-in-out;
+}
+
+.role-based-route-error-icon {
+    margin-bottom: 1rem;
+    
+    i {
+        font-size: 3rem;
+        color: var(--red-500);
+    }
+}
+
+.role-based-route-error-content h1 {
+    color: var(--text-color);
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+}
+
+.role-based-route-error-content p {
+    color: var(--text-color-secondary);
+    margin-bottom: 1.5rem;
+    line-height: 1.5;
+}
+
+.role-based-route-user-role {
+    display: block;
+    margin-top: 0.5rem;
+    font-size: 0.9rem;
+    color: var(--text-color-secondary);
+}
+
+.role-based-route-role-name {
+    font-weight: 600;
+    color: var(--primary-color);
+}
+
+.role-based-route-login-btn,
+.role-based-route-dashboard-btn {
+    background: var(--primary-color);
+    color: var(--primary-color-text);
+    border: none;
+    border-radius: 6px;
+    padding: 0.75rem 1.5rem;
+    font-size: 0.9rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    
+    &:hover {
+        background: var(--primary-600);
+        transform: translateY(-1px);
+    }
+    
+    &:focus {
+        outline: 2px solid var(--primary-200);
+        outline-offset: 2px;
+    }
+    
+    &:active {
+        transform: translateY(0);
+    }
+}
+
+.role-based-route-dashboard-btn {
+    background: var(--surface-200);
+    color: var(--text-color);
+    
+    &:hover {
+        background: var(--surface-300);
+    }
+}
+
+// Smooth page transitions
+.page-transition {
+    opacity: 1;
+    transition: opacity 0.3s ease-in-out;
+    
+    &.transitioning {
+        opacity: 0;
+    }
+}
+
+// Prevent content flash during auth checks
+.auth-checking {
+    opacity: 0;
+    transition: opacity 0.3s ease-in-out;
+    
+    &.auth-complete {
+        opacity: 1;
+    }
+}
+
+// Loading spinner animation
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+} 

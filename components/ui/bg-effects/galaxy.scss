@@ -1,0 +1,351 @@
+// Galaxy Background Styles
+.milky-way-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  z-index: -1;
+  // background: var(--);
+}
+
+.deep-space-base {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  // background: radial-gradient(
+  //   ellipse at center,
+  //   #0a0a1f 0%,
+  //   #050510 30%,
+  //   #020205 60%,
+  //   #000000 100%
+  // );
+}
+
+.lightning-strike {
+  position: absolute;
+  // background: radial-gradient(
+  //   circle,
+  //   rgba(255, 255, 255, 0.6) 0%,
+  //   rgba(180, 200, 255, 0.3) 40%,
+  //   transparent 100%
+  // );
+  border-radius: 50%;
+  pointer-events: none;
+  animation: subtleLightning 0.2s ease-out;
+  z-index: 5;
+}
+
+.galactic-center {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  // background: 
+  //   radial-gradient(ellipse 40% 60% at 60% 45%, 
+  //     rgba(255, 248, 220, 0.15) 0%,
+  //     rgba(255, 235, 180, 0.12) 20%,
+  //     rgba(200, 180, 120, 0.08) 40%,
+  //     rgba(120, 100, 80, 0.04) 60%,
+  //     transparent 80%
+  //   );
+  animation: galacticGlow 120s ease-in-out infinite;
+  opacity: 0.9;
+  transform: scale(1.1);
+}
+
+.cosmic-dust-field {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  opacity: 0.8;
+}
+
+.dust-cluster {
+  position: absolute;
+  // background: radial-gradient(
+  //   ellipse,
+  //   rgba(255, 255, 255, 0.03) 0%,
+  //   rgba(200, 200, 255, 0.02) 30%,
+  //   rgba(150, 150, 200, 0.01) 60%,
+  //   transparent 100%
+  // );
+  border-radius: 50%;
+  animation: dustDrift 80s linear infinite;
+  transform: scale(1.2);
+}
+
+// Star Field Layers
+.star-field {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+
+  &.background-stars {
+    z-index: 1;
+  }
+
+  &.mid-stars {
+    z-index: 2;
+  }
+
+  &.foreground-stars {
+    z-index: 4;
+  }
+}
+
+// Star Styles
+.star {
+  position: absolute;
+  // background-color: #fff;
+  border-radius: 50%;
+  animation: twinkle var(--twinkle-speed) ease-in-out infinite;
+  animation-delay: var(--twinkle-delay);
+  transform: translate(-50%, -50%);
+  box-shadow: 0 0 4px rgba(255, 255, 255, 0.8);
+  opacity: var(--brightness);
+}
+
+.bg-star {
+  z-index: 1;
+}
+
+.mid-star {
+  z-index: 2;
+}
+
+.fg-star {
+  z-index: 3;
+}
+
+// Moving Objects
+.moving-objects-container {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 10;
+}
+
+.moving-object {
+  position: absolute;
+  background: radial-gradient(circle at center, var(--color) 0%, transparent 70%);
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  opacity: var(--brightness);
+  filter: blur(2px);
+  z-index: 4;
+}
+
+.object-core {
+  position: absolute;
+  width: var(--object-size, 3px);
+  height: var(--object-size, 3px);
+  background: var(--object-color, white);
+  border-radius: 50%;
+  box-shadow: 
+    0 0 calc(var(--object-size, 3px) * 2) var(--object-color, white),
+    0 0 calc(var(--object-size, 3px) * 4) rgba(255, 255, 255, 0.6),
+    0 0 calc(var(--object-size, 3px) * 6) rgba(255, 255, 255, 0.3);
+  animation: objectPulse 0.3s ease-in-out infinite alternate;
+  z-index: 3;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.object-tail {
+  position: absolute;
+  width: var(--tail-length, 80px);
+  height: calc(var(--object-size, 3px) * 0.8);
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.1) 10%,
+    rgba(255, 255, 255, 0.3) 30%,
+    rgba(255, 255, 255, 0.5) 50%,
+    rgba(255, 255, 255, 0.7) 70%,
+    rgba(255, 255, 255, 0.9) 85%,
+    var(--object-color, white) 100%
+  );
+  opacity: var(--brightness, 0.9);
+  animation: tailFlicker 0.2s ease-in-out infinite alternate;
+  top: 50%;
+  right: calc(var(--object-size, 3px) / 2);
+  transform: translateY(-50%);
+  z-index: 2;
+  border-radius: 2px;
+}
+
+.galactic-dust-band {
+  position: absolute;
+  width: 150%;
+  height: 100%;
+  top: 0%;
+  left: -25%;
+  background: 
+    linear-gradient(
+      135deg,
+      transparent 0%,
+      rgba(255, 255, 255, 0.02) 20%,
+      rgba(200, 180, 160, 0.03) 35%,
+      rgba(180, 160, 140, 0.04) 50%,
+      rgba(160, 140, 120, 0.03) 65%,
+      rgba(255, 255, 255, 0.02) 80%,
+      transparent 100%
+    );
+  transform: rotate(-35deg);
+  animation: galacticRotation 300s linear infinite;
+  opacity: 0.7;
+}
+
+// Animations
+@keyframes moveAcrossGalaxy {
+  0% {
+    left: var(--start-x);
+    top: var(--start-y);
+    opacity: 0;
+  }
+  10% {
+    opacity: 1;
+  }
+  90% {
+    opacity: 1;
+  }
+  100% {
+    left: var(--end-x);
+    top: var(--end-y);
+    opacity: 0;
+  }
+}
+
+@keyframes objectPulse {
+  0% { 
+    transform: translateY(-50%) scale(1); 
+    opacity: 0.9; 
+  }
+  100% { 
+    transform: translateY(-50%) scale(1.05); 
+    opacity: 1; 
+  }
+}
+
+@keyframes tailFlicker {
+  0% { opacity: 0.8; }
+  100% { opacity: 1; }
+}
+
+@keyframes subtleLightning {
+  0% { 
+    opacity: 0; 
+    transform: scale(0.5); 
+  }
+  30% { 
+    opacity: 1; 
+    transform: scale(1.1); 
+  }
+  60% { 
+    opacity: 0.4; 
+    transform: scale(0.9); 
+  }
+  100% { 
+    opacity: 0; 
+    transform: scale(0.7); 
+  }
+}
+
+@keyframes galacticGlow {
+  0%, 100% { 
+    opacity: 0.8;
+    transform: scale(1) rotate(0deg);
+  }
+  50% { 
+    opacity: 1;
+    transform: scale(1.02) rotate(0.5deg);
+  }
+}
+
+@keyframes dustDrift {
+  0% { 
+    transform: translateX(0) translateY(0) rotate(0deg);
+    opacity: 0.6;
+  }
+  50% { 
+    opacity: 1;
+  }
+  100% { 
+    transform: translateX(-50px) translateY(-30px) rotate(360deg);
+    opacity: 0.4;
+  }
+}
+
+@keyframes twinkle {
+  0%, 100% {
+    opacity: var(--brightness);
+    transform: translate(-50%, -50%) scale(1);
+  }
+  50% {
+    opacity: calc(var(--brightness) * 0.5);
+    transform: translate(-50%, -50%) scale(0.8);
+  }
+}
+
+@keyframes galacticRotation {
+  0% { transform: rotate(-25deg); }
+  100% { transform: rotate(-25.2deg); }
+}
+
+// Responsive Design
+@media (max-width: 768px) {
+  .star-field.background-stars {
+    opacity: 0.8;
+  }
+  
+  .cosmic-dust-field {
+    opacity: 0.7;
+  }
+}
+
+@media (max-width: 480px) {
+  .galactic-center {
+    opacity: 0.6;
+  }
+  
+  .dust-cluster {
+    animation-duration: 60s;
+  }
+}
+
+.galaxy-background {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  // background: linear-gradient(to bottom, #000000, #0a0a2a);
+  overflow: hidden;
+  z-index: -1;
+}
+
+.lightning {
+  position: absolute;
+  // background: linear-gradient(to bottom, rgba(255, 255, 255, 0.8), transparent);
+  transform-origin: top;
+  transform: rotate(var(--angle));
+  opacity: var(--intensity);
+  z-index: 5;
+  animation: lightning-flash 0.5s ease-out;
+}
+
+@keyframes lightning-flash {
+  0% {
+    opacity: 0;
+  }
+  20% {
+    opacity: var(--intensity);
+  }
+  100% {
+    opacity: 0;
+  }
+}

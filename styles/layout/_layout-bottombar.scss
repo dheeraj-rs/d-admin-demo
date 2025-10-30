@@ -1,0 +1,127 @@
+@use './variables' as *;
+
+.layout__bottombar {
+    transition:
+        transform $duration-transition-base $easing-transition-base,
+        visibility 0s linear $duration-transition-base;
+    z-index: $z-index-bottombar-mask;
+    .layout-bottombar-desktop {
+        box-sizing: border-box;
+        flex: 1 1 auto;
+        position: fixed;
+        right: $padding-layout-base;
+        bottom: $padding-layout-base;
+        background-color: var(--surface-section);
+        border-radius: $border-radius-layout-base;
+        box-shadow: $box-shadow-layout-base-3d;
+        transition:
+            transform $duration-transition-base $easing-transition-base,
+            right $duration-transition-base $easing-transition-base,
+            left $duration-transition-base $easing-transition-base,
+            width $duration-transition-base $easing-transition-base,
+            height $duration-transition-base $easing-transition-base $duration-transition-base;
+        &:not(:hover) {
+            transition:
+                transform $duration-transition-base $easing-transition-base,
+                right $duration-transition-base $easing-transition-base,
+                left $duration-transition-base $easing-transition-base,
+                height $duration-transition-base $easing-transition-base,
+                width $duration-transition-base $easing-transition-base $duration-transition-base,
+                z-index $duration-transition-base linear $duration-transition-base;
+            width: $width-bottombar-base;
+            height: $height-bottombar-base;
+            z-index: $z-index-bottombar-mask;
+        }
+    }
+
+    .layout-bottombar-mobile {
+        display: none;
+        position: fixed;
+        bottom: $padding-layout-base;
+        right: $padding-layout-base;
+        flex: 1 1 auto;
+        width: $width-bottombar-mobile;
+        height:$height-bottombar-base;
+        background-color: var(--surface-section);
+        box-shadow: $box-shadow-layout-base-3d;
+        border-radius: $border-radius-layout-base;
+        z-index: $z-index-bottombar-base;
+        transform: translateX(100%);
+        border: 1px solid var(--surface-border);
+
+        .navigation-scroll-container {
+            display: flex;
+            height: 100%;
+            overflow-x: auto;
+            scroll-snap-type: x mandatory;
+            -webkit-overflow-scrolling: touch;
+            scrollbar-width: none;
+            -ms-overflow-style: none;
+            padding: 0 160px;
+            gap: 16px;
+
+            &::-webkit-scrollbar {
+                display: none;
+            }
+            
+            .navigation-item {
+                flex: 0 0 auto;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                width: 75px;
+                cursor: pointer;
+                scroll-snap-align: center;
+                .icon-wrapper {
+                    display: flex;
+                    flex-direction: column;
+                    align-items: center;
+                    justify-content: center;
+                    transition: transform 0.3s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+
+                    i {
+                        font-size: 18px;
+                        margin-bottom: 4px;
+                        transition: all 0.3s ease;
+                        color: var(--text-secondary);
+                    }
+
+                    span {
+                        font-size: 10px;
+                        color: var(--text-secondary);
+                        text-transform: lowercase;
+                        transition: all 0.3s ease;
+                        white-space: nowrap;
+                    }
+                }
+
+                &:active .icon-wrapper {
+                    transform: scale(0.9);
+                }
+
+                &.active {
+                    .icon-wrapper {
+                        transform: scale(1.2);
+                        opacity: 1;
+                        color: var(--text-secondary);
+                    }
+                }
+
+                &:not(.active) .icon-wrapper {
+                    opacity: 0.6;
+                }
+            }
+        }
+    }
+
+    .layout-bottombar-mask {
+        width: 100%;
+        height: $height-bottombar-base;
+        background-color: var(--surface-ground);
+        transition: transform 0.3s ease-in-out;
+        position: fixed;
+        bottom: 0;
+        z-index: $z-index-bottombar-mask;
+        display: none;
+    }
+}
