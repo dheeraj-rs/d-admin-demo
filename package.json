@@ -11,7 +11,7 @@
   "dependencies": {
     "react": "19.2.0",
     "react-dom": "19.2.0",
-    "next": "16.0.1",
+    "next": "16.0.10",
     "@babel/standalone": "^7.27.0",
     "@monaco-editor/react": "^4.7.0",
     "@radix-ui/react-progress": "^1.1.7",
